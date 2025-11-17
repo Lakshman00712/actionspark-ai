@@ -1,0 +1,4 @@
+project_id = "xubqxkvwdgkzrrradubm"
+
+[functions.extract-action-items]
+verify_jwt = false
