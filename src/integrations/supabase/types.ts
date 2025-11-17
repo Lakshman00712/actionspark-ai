@@ -14,7 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      action_items: {
+        Row: {
+          action: string
+          analysis_id: string
+          completed: boolean
+          created_at: string
+          deadline: string
+          id: string
+          owner: string
+          priority: string
+          remarks: string | null
+        }
+        Insert: {
+          action: string
+          analysis_id: string
+          completed?: boolean
+          created_at?: string
+          deadline: string
+          id?: string
+          owner: string
+          priority: string
+          remarks?: string | null
+        }
+        Update: {
+          action?: string
+          analysis_id?: string
+          completed?: boolean
+          created_at?: string
+          deadline?: string
+          id?: string
+          owner?: string
+          priority?: string
+          remarks?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "action_items_analysis_id_fkey"
+            columns: ["analysis_id"]
+            isOneToOne: false
+            referencedRelation: "analyses"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      analyses: {
+        Row: {
+          created_at: string
+          id: string
+          title: string | null
+          transcript: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          transcript: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          title?: string | null
+          transcript?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
