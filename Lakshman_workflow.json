@@ -1,0 +1,260 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "https://57199f90-ec50-4da2-9e21-a0d2333f291d.lovableproject.com/share/f0d75ac7-440f-4101-a8c1-6059a70c339c",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "956e1510-4267-4930-881b-5d1fbfefe7b8",
+      "name": "Webhook",
+      "webhookId": "922007ff-2d43-43cc-8043-c368fad3d71a"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3,
+      "position": [
+        208,
+        0
+      ],
+      "id": "ce72cfde-8767-4d31-b1d0-3bcae860fa08",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "4a161702-4142-4b23-b6aa-d502899b7567",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reY7IWfHaxKdNZ92",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "409523de-9b10-45e8-9d8d-1ee15fbccdd8",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "operation": "appendOrUpdate",
+        "documentId": {
+          "__rl": true,
+          "value": "1pnjLBSgJJH7Z_JSFYcRB7YFBj5dcmwgDl_WWUEuYUKE",
+          "mode": "list",
+          "cachedResultName": "Meetingnotes_AI",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pnjLBSgJJH7Z_JSFYcRB7YFBj5dcmwgDl_WWUEuYUKE/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Decisions",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/1pnjLBSgJJH7Z_JSFYcRB7YFBj5dcmwgDl_WWUEuYUKE/edit#gid=0"
+        },
+        "columns": {
+          "mappingMode": "autoMapInputData",
+          "value": {},
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Date",
+              "displayName": "Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Action points",
+              "displayName": "Action points",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Owner",
+              "displayName": "Owner",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Due Date",
+              "displayName": "Due Date",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            },
+            {
+              "id": "Remarks",
+              "displayName": "Remarks",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true,
+              "removed": false
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {
+          "useAppend": false
+        }
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        560,
+        0
+      ],
+      "id": "f56c967a-5ca2-4d98-ac44-efa68b390cda",
+      "name": "Append or update row in sheet",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "LhsZxmfqLpe5vOoS",
+          "name": "Google Sheets account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-flash",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-flash"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "Read the meeting notes and distinguish between discussion points and actual commitments, understand context to assign the right person even when not explicitly stated, extract implicit deadlines from phrases like \"before month-end\" or \"in time for the client meeting,\" and integrate with existing project management tools to create tasks automatically. This ensures nothing falls through the cracks and improves meeting ROI.\nThe output should have columns 'Action', 'Owner',Deadline','Prioirty','Remarks'",
+              "role": "model"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGeminiTool",
+      "typeVersion": 1,
+      "position": [
+        368,
+        208
+      ],
+      "id": "55bfc1fa-c560-4dd4-bd99-06966d67da2b",
+      "name": "Message a model in Google Gemini",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "reY7IWfHaxKdNZ92",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Append or update row in sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model in Google Gemini": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1d27d932-0206-4387-a9e9-9303360fa4d8",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "0c9a7db7e5508ce7eb8e075481e16330b3dd2566d5410a4d510f52d72b2326b7"
+  },
+  "id": "DTHYTddb24pv9u6B",
+  "tags": []
+}
